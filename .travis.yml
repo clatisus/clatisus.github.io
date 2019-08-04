@@ -1,0 +1,10 @@
+language: node_js
+node_js: 
+  - "12"
+before_script:
+  - git config user.name "coldwater"
+  - git config user.email "clatisus@gmail.com"
+  - sed -i'' "s~https://github.com/clatisus/clatisus.github.io.git~https://${GITHUB_ACCESS_TOKEN}@github.com/clatisus/clatisus.github.io.git~" _config.yml
+script:
+  - hexo g
+  - hexo d
