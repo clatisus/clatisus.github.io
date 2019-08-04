@@ -1,6 +1,9 @@
 language: node_js
 node_js: 
   - "12"
+branches:
+  only:
+    - source
 before_script:
   - git config user.name "coldwater"
   - git config user.email "clatisus@gmail.com"
