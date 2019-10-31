@@ -21,18 +21,10 @@ $ hexo server
 
 More info: [Server](https://hexo.io/docs/server.html)
 
-### Generate static files
+### Publish
 
-``` bash
-$ hexo generate
+```bash
+$git add .
+$git commit -m "balabala"
+$git push
 ```
-
-More info: [Generating](https://hexo.io/docs/generating.html)
-
-### Deploy to remote sites
-
-``` bash
-$ hexo deploy
-```
-
-More info: [Deployment](https://hexo.io/docs/deployment.html)
