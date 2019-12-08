@@ -1,5 +1,5 @@
 ---
-title: algorithm-homework-3
+title: Algorithm-Homework-3
 date: 2019-12-07 00:59:52
 tags:
 ---
