@@ -13,12 +13,14 @@ direction: ltr
 # A pair 'Key: url' will result in a link to 'url' with the name 'Key' in the
 # navigation menu. Optionally, you can add translations for the 'Key' in
 # languages/*.yml
-nav:
-  home: /
-  about: /about/
-  articles: /archives/
-  projects: projects_url
 
+# Navigation Menu
+nav:
+  Home: /
+  About: /about/
+  Writing: /archives/
+  Projects: http://github.com/corsical
+  Tags: /tags/
 
 # Links to your social media accounts.
 # The keys should correspond to Fontawesome icon names
@@ -33,7 +35,7 @@ social_links:
 
 # Customize the overview with displaying a tagcloud on the index page.
 # Options: https://hexo.io/docs/helpers.html#tagcloud
-tags_overview: false
+tags_overview: true
 
 # Customize the overview with the most recent blog posts on the index page.
 # Options:
@@ -42,7 +44,7 @@ tags_overview: false
 #   - sort_updated: sort posts by last modification date instead of creation date.
 posts_overview:
   show_all_posts: false
-  post_count: 5
+  post_count: 10
   sort_updated: false
 
 # Customize the archive view.
