@@ -1,7 +1,9 @@
 ---
 title: 2019-12-11-Daily-Exercise
 date: 2019-12-11 01:35:13
-tags: 字符串, strstr函数
+tags: 
+- 字符串
+- strstr
 ---
 
 ## 12.11 字符串替换问题
