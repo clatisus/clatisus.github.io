@@ -28,14 +28,6 @@ code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
 
-# Navigation Menu
-nav:
-  Home: /
-  About: /about/
-  Writing: /archives/
-  Projects: http://github.com/corsical
-  tags: /tags/
-
 # Writing
 new_post_name: :title.md # File name of new posts
 default_layout: post
@@ -65,7 +57,6 @@ index_generator:
 default_category: uncategorized
 category_map:
 tag_map:
-tags_overview: true
 
 # Date / Time format
 ## Hexo uses Moment.js to parse and display date
