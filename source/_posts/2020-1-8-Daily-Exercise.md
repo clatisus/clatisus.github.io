@@ -22,7 +22,7 @@ so that their total loads will be 7 and 8, respectively, and the difference of t
 ```
 把一个数组分成两个子数组，使得这两子数组和的差的绝对值最小。
 
-## 动态规划
+### 动态规划
 01背包，选择尽可能接近数组总和/2的选法
 
 ```c++
@@ -91,7 +91,7 @@ int main() {
 2 <= A.length == B.length <= 20000
 ```
 
-## 贪心
+### 贪心
 
 ```c++
 int minDominoRotations(vector<int>& A, vector<int>& B) {
@@ -121,5 +121,33 @@ int minDominoRotations(vector<int>& A, vector<int>& B) {
         }
     }
     return min(cntA, cntB);
+}
+```
+
+## Largest Subarray Length K
+Array X is greater than array Y if the first non-matching element in both arrays has greater value in X than in Y
+
+Given an array A contains N distinct integers. Find the largest contiguous subarray length K.
+
+$1\le K \le N \le 100$
+$1\le A[j] \le 1000$ 
+
+### 贪心
+
+```c++
+#include<cstdio>
+#include<vector>
+
+int main() {
+    std::vector<int> a = {1, 2, 4, 3, 5};
+    int k = 4;
+    int ans = 0;
+    for (int i = 0; i < a.size() - k + 1; ++i) {
+        ans = a[ans] > a[i] ? ans : i;
+    }
+    for (int i = 0; i < k; ++i) {
+        printf("%d%c", a[ans + i], i == k-1 ? '\n' : ' ');
+    }
+    return 0;
 }
 ```
