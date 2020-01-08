@@ -127,7 +127,7 @@ int minDominoRotations(vector<int>& A, vector<int>& B) {
 ## Largest Subarray Length K
 Array X is greater than array Y if the first non-matching element in both arrays has greater value in X than in Y
 
-Given an array A contains N distinct integers. Find the largest contiguous subarray length K.
+Given an array A contains N distinct integers and an integer K. Find the largest contiguous subarray length K.
 
 $1\le K \le N \le 100$
 $1\le A[j] \le 1000$ 
