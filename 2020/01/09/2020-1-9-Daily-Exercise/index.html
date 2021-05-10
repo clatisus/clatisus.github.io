@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="K个离原点最近的点我们有一个由平面上的点组成的列表 points。需要从中找出 K 个距离原点 (0, 0) 最近的点。 （这里，平面上两点之间的距离是欧几里德距离。） 你可以按任何顺序返回答案。除了点坐标的顺序之外，答案确保是唯一的。 示例 1： 1234567输入：points = [[1,3],[-2,2]], K = 1输出：[[-2,2]]解释： (1, 3) 和原点之间的距离为 sqr">
+<meta name="keywords" content="字符串,优先队列,二叉树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2020-1-9-Daily-Exercise">
+<meta property="og:url" content="https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/index.html">
+<meta property="og:site_name" content="Pseudo Code">
+<meta property="og:description" content="K个离原点最近的点我们有一个由平面上的点组成的列表 points。需要从中找出 K 个距离原点 (0, 0) 最近的点。 （这里，平面上两点之间的距离是欧几里德距离。） 你可以按任何顺序返回答案。除了点坐标的顺序之外，答案确保是唯一的。 示例 1： 1234567输入：points = [[1,3],[-2,2]], K = 1输出：[[-2,2]]解释： (1, 3) 和原点之间的距离为 sqr">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2021-05-10T05:42:19.284Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2020-1-9-Daily-Exercise">
+<meta name="twitter:description" content="K个离原点最近的点我们有一个由平面上的点组成的列表 points。需要从中找出 K 个距离原点 (0, 0) 最近的点。 （这里，平面上两点之间的距离是欧几里德距离。） 你可以按任何顺序返回答案。除了点坐标的顺序之外，答案确保是唯一的。 示例 1： 1234567输入：points = [[1,3],[-2,2]], K = 1输出：[[-2,2]]解释： (1, 3) 和原点之间的距离为 sqr">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>2020-1-9-Daily-Exercise</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/corsical">Projects</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/05/10/hello-world/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/01/08/2020-1-8-Daily-Exercise/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/&text=2020-1-9-Daily-Exercise"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/&title=2020-1-9-Daily-Exercise"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/&is_video=false&description=2020-1-9-Daily-Exercise"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=2020-1-9-Daily-Exercise&body=Check out this article: https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/&title=2020-1-9-Daily-Exercise"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/&title=2020-1-9-Daily-Exercise"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/&title=2020-1-9-Daily-Exercise"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/&title=2020-1-9-Daily-Exercise"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/&name=2020-1-9-Daily-Exercise&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#K个离原点最近的点"><span class="toc-number">1.</span> <span class="toc-text">K个离原点最近的点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优先队列"><span class="toc-number">1.1.</span> <span class="toc-text">优先队列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最大层内元素和"><span class="toc-number">2.</span> <span class="toc-text">最大层内元素和</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BFS"><span class="toc-number">2.1.</span> <span class="toc-text">BFS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#密钥格式化"><span class="toc-number">3.</span> <span class="toc-text">密钥格式化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#独特的电子邮件"><span class="toc-number">4.</span> <span class="toc-text">独特的电子邮件</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        2020-1-9-Daily-Exercise
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Pseudo Code</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-01-09T22:18:49.000Z" itemprop="datePublished">2020-01-09</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/二叉树/">二叉树</a>, <a class="tag-link" href="/tags/优先队列/">优先队列</a>, <a class="tag-link" href="/tags/字符串/">字符串</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="K个离原点最近的点"><a href="#K个离原点最近的点" class="headerlink" title="K个离原点最近的点"></a>K个离原点最近的点</h2><p>我们有一个由平面上的点组成的列表 points。需要从中找出 K 个距离原点 (0, 0) 最近的点。</p>
+<p>（这里，平面上两点之间的距离是欧几里德距离。）</p>
+<p>你可以按任何顺序返回答案。除了点坐标的顺序之外，答案确保是唯一的。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">输入：points = [[1,3],[-2,2]], K = 1</span><br><span class="line">输出：[[-2,2]]</span><br><span class="line">解释： </span><br><span class="line">(1, 3) 和原点之间的距离为 sqrt(10)，</span><br><span class="line">(-2, 2) 和原点之间的距离为 sqrt(8)，</span><br><span class="line">由于 sqrt(8) &lt; sqrt(10)，(-2, 2) 离原点更近。</span><br><span class="line">我们只需要距离原点最近的 K = 1 个点，所以答案就是 [[-2,2]]。</span><br></pre></td></tr></table></figure>
+
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：points = [[3,3],[5,-1],[-2,4]], K = 2</span><br><span class="line">输出：[[3,3],[-2,4]]</span><br><span class="line">（答案 [[-2,4],[3,3]] 也会被接受。）</span><br></pre></td></tr></table></figure>
+
+<p>提示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 &lt;= K &lt;= points.length &lt;= 10000</span><br><span class="line">-10000 &lt; points[i][0] &lt; 10000</span><br><span class="line">-10000 &lt; points[i][1] &lt; 10000</span><br></pre></td></tr></table></figure>
+
+<h3 id="优先队列"><a href="#优先队列" class="headerlink" title="优先队列"></a>优先队列</h3><p>优先队列默认是大根堆，如果要小根堆，可以存入负数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; kClosest(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; points, <span class="keyword">int</span> K) &#123;</span><br><span class="line">    priority_queue&lt;pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&gt; q;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; points.size(); ++i) &#123;</span><br><span class="line">        <span class="keyword">int</span> dis = points[i][<span class="number">0</span>] * points[i][<span class="number">0</span>] + points[i][<span class="number">1</span>] * points[i][<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (q.size() &lt; K) &#123;</span><br><span class="line">            q.emplace(dis, i);</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (q.top().first &gt; dis) &#123;</span><br><span class="line">            q.pop();</span><br><span class="line">            q.emplace(dis, i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; ans;</span><br><span class="line">    <span class="keyword">while</span> (!q.empty()) &#123;</span><br><span class="line">        ans.push_back(points[q.top().second]);</span><br><span class="line">        q.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="最大层内元素和"><a href="#最大层内元素和" class="headerlink" title="最大层内元素和"></a>最大层内元素和</h2><p>给你一个二叉树的根节点 root。设根节点位于二叉树的第 1 层，而根节点的子节点位于第 2 层，依此类推。</p>
+<p>请你找出层内元素之和 最大 的那几层（可能只有一层）的层号，并返回其中 最小 的那个。</p>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">输入：[1,7,0,7,-8,null,null]</span><br><span class="line">输出：2</span><br><span class="line">解释：</span><br><span class="line">第 1 层各元素之和为 1，</span><br><span class="line">第 2 层各元素之和为 7 + 0 = 7，</span><br><span class="line">第 3 层各元素之和为 7 + -8 = -1，</span><br><span class="line">所以我们返回第 2 层的层号，它的层内元素之和最大。</span><br></pre></td></tr></table></figure>
+
+<p>提示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">树中的节点数介于 1 和 10^4 之间</span><br><span class="line">-10^5 &lt;= node.val &lt;= 10^5</span><br></pre></td></tr></table></figure>
+
+<h3 id="BFS"><a href="#BFS" class="headerlink" title="BFS"></a>BFS</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxLevelSum</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;pair&lt;TreeNode*, <span class="keyword">int</span>&gt;&gt; q;</span><br><span class="line">    q.emplace(root, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">0</span>, last = <span class="number">0</span>, sum = INT_MIN, maxsum = INT_MIN;</span><br><span class="line">    <span class="keyword">while</span> (!q.empty()) &#123;</span><br><span class="line">        TreeNode* p = q.front().first;</span><br><span class="line">        <span class="keyword">int</span> layer = q.front().second;</span><br><span class="line">        q.pop();</span><br><span class="line">        <span class="keyword">if</span> (layer != last) &#123;</span><br><span class="line">            ans = sum &gt; maxsum ? last : ans;</span><br><span class="line">            maxsum = sum &gt; maxsum ? sum : maxsum;</span><br><span class="line">            sum = <span class="number">0</span>;</span><br><span class="line">            last = layer;</span><br><span class="line">        &#125; </span><br><span class="line">        sum += p-&gt;val;</span><br><span class="line">        <span class="keyword">if</span> (p-&gt;left != <span class="literal">NULL</span>)</span><br><span class="line">            q.emplace(p-&gt;left, layer + <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (p-&gt;right != <span class="literal">NULL</span>)</span><br><span class="line">            q.emplace(p-&gt;right, layer + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="密钥格式化"><a href="#密钥格式化" class="headerlink" title="密钥格式化"></a>密钥格式化</h2><p>给定一个密钥字符串S，只包含字母，数字以及 ‘-‘（破折号）。N 个 ‘-‘ 将字符串分成了 N+1 组。给定一个数字 K，重新格式化字符串，除了第一个分组以外，每个分组要包含 K 个字符，第一个分组至少要包含 1 个字符。两个分组之间用 ‘-‘（破折号）隔开，并且将所有的小写字母转换为大写字母。</p>
+<p>给定非空字符串 S 和数字 K，按照上面描述的规则进行格式化。</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：S = &quot;5F3Z-2e-9-w&quot;, K = 4</span><br><span class="line">输出：&quot;5F3Z-2E9W&quot;</span><br><span class="line">解释：字符串 S 被分成了两个部分，每部分 4 个字符；</span><br><span class="line">     注意，两个额外的破折号需要删掉。</span><br></pre></td></tr></table></figure>
+
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：S = &quot;2-5g-3-J&quot;, K = 2</span><br><span class="line">输出：&quot;2-5G-3J&quot;</span><br><span class="line">解释：字符串 S 被分成了 3 个部分，按照前面的规则描述，第一部分的字符可以少于给定的数量，其余部分皆为 2 个字符。</span><br></pre></td></tr></table></figure>
+
+<p>主要问题在如何处理特殊情况（刚好整除）</p>
+<p>方法一：最后erase掉字符串首元素<br><code>str.erase(pos, number)</code>：从 str[pos] 开始删掉 number 个元素</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">licenseKeyFormatting</span><span class="params">(<span class="built_in">string</span> S, <span class="keyword">int</span> K)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">string</span> nodash;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; S.length(); ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (S[i] == <span class="string">'-'</span>) <span class="keyword">continue</span>;</span><br><span class="line">        nodash += S[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> first = nodash.length() % K;</span><br><span class="line">    <span class="built_in">string</span> ans;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nodash.length(); ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; first) &#123;</span><br><span class="line">            ans += <span class="built_in">toupper</span>(nodash[i]);</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ans += <span class="string">'-'</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; K; ++j) &#123;</span><br><span class="line">            ans += <span class="built_in">toupper</span>(nodash[i + j]);</span><br><span class="line">        &#125;</span><br><span class="line">        i += K - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!first &amp;&amp; ans.size()) ans.erase(ans.begin());</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>方法二：如果余数为0，则把第一段当成K长度处理</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">licenseKeyFormatting</span><span class="params">(<span class="built_in">string</span> S, <span class="keyword">int</span> K)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">string</span> nodash;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; S.length(); ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (S[i] == <span class="string">'-'</span>) <span class="keyword">continue</span>;</span><br><span class="line">        nodash += S[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> first = nodash.length() % K;</span><br><span class="line">    <span class="built_in">string</span> ans;</span><br><span class="line">    <span class="keyword">if</span> (first == <span class="number">0</span>) first = K;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nodash.length(); ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; first) &#123;</span><br><span class="line">            ans += <span class="built_in">toupper</span>(nodash[i]);</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ans += <span class="string">'-'</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; K; ++j) &#123;</span><br><span class="line">            ans += <span class="built_in">toupper</span>(nodash[i + j]);</span><br><span class="line">        &#125;</span><br><span class="line">        i += K - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="独特的电子邮件"><a href="#独特的电子邮件" class="headerlink" title="独特的电子邮件"></a>独特的电子邮件</h2><p>每封电子邮件都由一个本地名称和一个域名组成，以 @ 符号分隔。</p>
+<p>例如，在 <a href="mailto:alice@leetcode.com" target="_blank" rel="noopener">alice@leetcode.com</a>中， alice 是本地名称，而 leetcode.com 是域名。</p>
+<p>除了小写字母，这些电子邮件还可能包含 ‘.’ 或 ‘+’。</p>
+<p>如果在电子邮件地址的本地名称部分中的某些字符之间添加句点（’.’），则发往那里的邮件将会转发到本地名称中没有点的同一地址。例如，”<a href="mailto:alice.z@leetcode.com" target="_blank" rel="noopener">alice.z@leetcode.com</a>” 和 “<a href="mailto:alicez@leetcode.com" target="_blank" rel="noopener">alicez@leetcode.com</a>” 会转发到同一电子邮件地址。 （请注意，此规则不适用于域名。）</p>
+<p>如果在本地名称中添加加号（’+’），则会忽略第一个加号后面的所有内容。这允许过滤某些电子邮件，例如 <a href="mailto:m.y+name@email.com" target="_blank" rel="noopener">m.y+name@email.com</a> 将转发到 <a href="mailto:my@email.com" target="_blank" rel="noopener">my@email.com</a>。 （同样，此规则不适用于域名。）</p>
+<p>可以同时使用这两个规则。</p>
+<p>给定电子邮件列表 emails，我们会向列表中的每个地址发送一封电子邮件。实际收到邮件的不同地址有多少？</p>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：[&quot;test.email+alex@leetcode.com&quot;,&quot;test.e.mail+bob.cathy@leetcode.com&quot;,&quot;testemail+david@lee.tcode.com&quot;]</span><br><span class="line">输出：2</span><br><span class="line">解释：实际收到邮件的是 &quot;testemail@leetcode.com&quot; 和 &quot;testemail@lee.tcode.com&quot;。</span><br></pre></td></tr></table></figure>
+
+<p>提示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 &lt;= emails[i].length &lt;= 100</span><br><span class="line">1 &lt;= emails.length &lt;= 100</span><br><span class="line">每封 emails[i] 都包含有且仅有一个 &apos;@&apos; 字符。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">numUniqueEmails</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; emails)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt; ans;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; emails.size(); ++i) &#123;</span><br><span class="line">        <span class="built_in">string</span> s;</span><br><span class="line">        <span class="keyword">int</span> j = <span class="number">0</span>, flag = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; emails[i].length() &amp;&amp; emails[i][j] != <span class="string">'@'</span>; ++j) &#123;</span><br><span class="line">            <span class="keyword">if</span> (emails[i][j] == <span class="string">'+'</span>) flag = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (emails[i][j] == <span class="string">'.'</span> || flag) <span class="keyword">continue</span>;</span><br><span class="line">            s += emails[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (j; j &lt; emails[i].length(); ++j) &#123;</span><br><span class="line">            s += emails[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">        ans.insert(s);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans.size();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/corsical">Projects</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#K个离原点最近的点"><span class="toc-number">1.</span> <span class="toc-text">K个离原点最近的点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优先队列"><span class="toc-number">1.1.</span> <span class="toc-text">优先队列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最大层内元素和"><span class="toc-number">2.</span> <span class="toc-text">最大层内元素和</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BFS"><span class="toc-number">2.1.</span> <span class="toc-text">BFS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#密钥格式化"><span class="toc-number">3.</span> <span class="toc-text">密钥格式化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#独特的电子邮件"><span class="toc-number">4.</span> <span class="toc-text">独特的电子邮件</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/&text=2020-1-9-Daily-Exercise"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/&title=2020-1-9-Daily-Exercise"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/&is_video=false&description=2020-1-9-Daily-Exercise"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=2020-1-9-Daily-Exercise&body=Check out this article: https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/&title=2020-1-9-Daily-Exercise"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/&title=2020-1-9-Daily-Exercise"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/&title=2020-1-9-Daily-Exercise"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/&title=2020-1-9-Daily-Exercise"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://pseudo-co.de/2020/01/09/2020-1-9-Daily-Exercise/&name=2020-1-9-Daily-Exercise&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2021 Junjie Wu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/corsical">Projects</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="假设 $01$ 串中，有 $m$ 段 $0$ 。  如果 $m=1$，那么无论如何交换，这段 $0$ 的长度也不会变得更长。  如果 $m\geq 2$ ，那么至少可以把一段 $0$ 中的某一个 $0$，交换到另一段 $0$ 的旁边，使其长度加 $1$。  如果 $m = 2$，且有两段 $0$ 中间只有一个 $1$，可以经过交换把两段 $0$ 合并成一段 $0$。  如果 $m &amp;gt; 2$">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Algorithm-Homework-3">
+<meta property="og:url" content="https://pseudo-co.de/2019/12/07/algorithm-homework-3/index.html">
+<meta property="og:site_name" content="Pseudo Code">
+<meta property="og:description" content="假设 $01$ 串中，有 $m$ 段 $0$ 。  如果 $m=1$，那么无论如何交换，这段 $0$ 的长度也不会变得更长。  如果 $m\geq 2$ ，那么至少可以把一段 $0$ 中的某一个 $0$，交换到另一段 $0$ 的旁边，使其长度加 $1$。  如果 $m = 2$，且有两段 $0$ 中间只有一个 $1$，可以经过交换把两段 $0$ 合并成一段 $0$。  如果 $m &amp;gt; 2$">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2021-05-10T05:42:19.284Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Algorithm-Homework-3">
+<meta name="twitter:description" content="假设 $01$ 串中，有 $m$ 段 $0$ 。  如果 $m=1$，那么无论如何交换，这段 $0$ 的长度也不会变得更长。  如果 $m\geq 2$ ，那么至少可以把一段 $0$ 中的某一个 $0$，交换到另一段 $0$ 的旁边，使其长度加 $1$。  如果 $m = 2$，且有两段 $0$ 中间只有一个 $1$，可以经过交换把两段 $0$ 合并成一段 $0$。  如果 $m &amp;gt; 2$">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Algorithm-Homework-3</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/corsical">Projects</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/12/08/algorithm-homework-2/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/12/05/algorithm-homework-1/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://pseudo-co.de/2019/12/07/algorithm-homework-3/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://pseudo-co.de/2019/12/07/algorithm-homework-3/&text=Algorithm-Homework-3"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://pseudo-co.de/2019/12/07/algorithm-homework-3/&title=Algorithm-Homework-3"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://pseudo-co.de/2019/12/07/algorithm-homework-3/&is_video=false&description=Algorithm-Homework-3"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Algorithm-Homework-3&body=Check out this article: https://pseudo-co.de/2019/12/07/algorithm-homework-3/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://pseudo-co.de/2019/12/07/algorithm-homework-3/&title=Algorithm-Homework-3"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://pseudo-co.de/2019/12/07/algorithm-homework-3/&title=Algorithm-Homework-3"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://pseudo-co.de/2019/12/07/algorithm-homework-3/&title=Algorithm-Homework-3"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://pseudo-co.de/2019/12/07/algorithm-homework-3/&title=Algorithm-Homework-3"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://pseudo-co.de/2019/12/07/algorithm-homework-3/&name=Algorithm-Homework-3&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Algorithm-Homework-3
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Pseudo Code</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-12-07T00:59:52.000Z" itemprop="datePublished">2019-12-07</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ol>
+<li><p>假设 $01$ 串中，有 $m$ 段 $0$ 。</p>
+<ul>
+<li><p>如果 $m=1$，那么无论如何交换，这段 $0$ 的长度也不会变得更长。</p>
+</li>
+<li><p>如果 $m\geq 2$ ，那么至少可以把一段 $0$ 中的某一个 $0$，交换到另一段 $0$ 的旁边，使其长度加 $1$。</p>
+<ul>
+<li><p>如果 $m = 2$，且有两段 $0$ 中间只有一个 $1$，可以经过交换把两段 $0$ 合并成一段 $0$。</p>
+</li>
+<li><p>如果 $m &gt; 2$，且有两段 $0$ 中间只有一个 $1$ ，可以把一个不在这两段中的 $0$，与这两段中的 $1$ 交换，可以获得额外的 $1$ 的收益。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>算法如下：</p>
+<ul>
+<li>先用 $\mathcal{O}(n)$ 的复杂度，找出每一段连续的 $0$ 所在的区间，我们设一共有 $m$ 段。并且同时用每一段的长度更新答案。</li>
+<li>若 $m\geq 2$，如上所述，我们一定可以将另外一段的一个 $0$ 交换至当前最优解的旁边，使得答案加 $1$。</li>
+<li>然后遍历所有段，如果存在两段中间只有一个 $1$，则可以用上述方法将两段 $0$ 中间的 $1$ 交换成 $0$，使得两段拼接起来，我们选择收益更高的方式即可。</li>
+</ul>
+<p>时间复杂度为 $\mathcal{O}(n)$。</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">solve</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; s)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&gt; part;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, j; i &lt; s.size(); i = j) &#123;</span><br><span class="line">        <span class="keyword">for</span> (j = i + <span class="number">1</span>; j &lt; s.size() &amp;&amp; s[i] == s[j]; ++j);</span><br><span class="line">        <span class="keyword">if</span> (!s[i]) &#123;</span><br><span class="line">            part.emplace_back(i, j - <span class="number">1</span>);</span><br><span class="line">            ans = <span class="built_in">std</span>::max(ans, j - i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> npart = part.size();</span><br><span class="line">    <span class="keyword">if</span> (npart &gt;= <span class="number">2</span>) ans++;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; npart - <span class="number">1</span>; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (part[i + <span class="number">1</span>].first - part[i].second != <span class="number">2</span>) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> len1 = part[i].second - part[i].first + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> len2 = part[i + <span class="number">1</span>].second - part[i + <span class="number">1</span>].first + <span class="number">1</span>;</span><br><span class="line">        ans = <span class="built_in">std</span>::max(ans, len1 + len2 + (npart &gt; <span class="number">2</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; a = &#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; b = &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; c = &#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>&#125;;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; d = &#123;<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>&#125;;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d %d %d %d\n"</span>, solve(a), solve(b), solve(c), solve(d));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>如果到目前为止的收益加起来 $\geq U$，我们考虑现在是否升级：</p>
+<ul>
+<li>升级我们会获得 $x_2\times \text{剩余天数（含今天）}$ 的收益，会付出 $U$ 的代价</li>
+</ul>
+<p>显然，如果我们要选择升级，那么越早升级越好（代价相同，收益随时间变大而递减）。所以只要收益大于代价，我们就贪心的升级即可。</p>
+<p>时间复杂度为 $\mathcal{O}(n)$。</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">solve</span><span class="params">(<span class="keyword">int</span> x1, <span class="keyword">int</span> x2, <span class="keyword">int</span> u, <span class="keyword">int</span> c, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans = c, every = x1;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ans &gt;= u) &#123;</span><br><span class="line">            <span class="keyword">if</span> (x2 * (n - i) &gt; u) &#123;</span><br><span class="line">                ans -= u;</span><br><span class="line">                every += x2;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ans += every;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, solve(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>我们设每个桶最短的板长度依次为 $V_1, \dots, V_n$，不妨假定他们已经按升序排好序。题目给的条件 $\forall 1\leq x, y\leq n, \mid V_x-V_y\mid \leq l$，等价于 $V_n-V_1\leq l$。</p>
+<p>不妨假定 $a_1, \dots, a_m$ 也按升序排好序，那么显然有 $V_1=a_1$，且 $V_n\geq a_n$。容易证明 $V_n=a_n$ 可以取到，所以我们只需要判断是否有 $a_n-a_1\leq l$ 即可。我们可以用 <code>nth_element</code> 来找到第 $1$ 和第 $n$ 小的元素。</p>
+<p>时间复杂度为 $\mathcal{O}(m=n\times k)$。</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> m, n, k, l;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; a;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::nth_element(a.begin(), a.begin() + n - <span class="number">1</span>, a.end());</span><br><span class="line">    <span class="built_in">std</span>::nth_element(a.begin(), a.begin(), a.end() + n);</span><br><span class="line">    <span class="keyword">return</span> (a[n - <span class="number">1</span>] - a[<span class="number">0</span>] &lt;= l);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>, &amp;n, &amp;k, &amp;l);</span><br><span class="line">    m = n * k;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; ++i) &#123;</span><br><span class="line">        <span class="keyword">int</span> tmp;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;tmp);</span><br><span class="line">        a.push_back(tmp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, (<span class="keyword">int</span>)solve());</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><p>$n$ 条边 $n$ 个点的连通无向图，这是一棵基环树。基环树上有一个环，环上每个点都「挂」着一棵树。我们只需要将环上的边按一个方向定向。然后每棵「挂」在环上的树上的每个非根节点，将它连父亲的那条边指向父亲即可。</p>
+<p>具体算法如下：</p>
+</li>
+</ol>
+<ul>
+<li><p>我们拓扑排序，将所有度为 $1$ 的点放入队列。每次取出队首的节点 $u$，枚举它的每条边 $(u,v)$，那么 $v$ 一定是它在树上的父亲节点，我们定向 $u\rightarrow v$，然后我们删掉这条边，将 $v$ 节点的度数减 $1$。若节点 $v$ 的度数为 $1$，那么我们将其放入队列。</p>
+<ul>
+<li><p>我们重复上述步骤，直到队列清空。那么此时，我们剩下的度数为 $2$ 的节点，就是环上的节点。</p>
+</li>
+<li><p>我们从任意一个度数为 $2$ 的节点开始，遍历这个环，按照访问顺序给边定向即可。</p>
+<p>所有点和边都只遍历 $1$ 次，时间复杂度为 $\mathcal{O}(n)$。</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> MAX_N = <span class="number">100010</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">int</span> du[MAX_N];</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec[MAX_N];</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&gt; ans;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">        <span class="keyword">int</span> u, v;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>, &amp;u, &amp;v);</span><br><span class="line">        vec[u].push_back(v);</span><br><span class="line">        vec[v].push_back(u);</span><br><span class="line">        ++du[u];</span><br><span class="line">        ++du[v];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> circle_node = n;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; <span class="built_in">queue</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (du[i] == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="built_in">queue</span>.push(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (!<span class="built_in">queue</span>.empty()) &#123;</span><br><span class="line">        --circle_node;</span><br><span class="line">        <span class="keyword">int</span> u = <span class="built_in">queue</span>.front();</span><br><span class="line">        <span class="built_in">queue</span>.pop();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> v : vec[u]) &#123;</span><br><span class="line">            <span class="comment">// u -&gt; v</span></span><br><span class="line">            ans.emplace_back(u, v);</span><br><span class="line">            <span class="keyword">if</span> (--du[v] == <span class="number">1</span>) &#123;</span><br><span class="line">                <span class="built_in">queue</span>.push(v);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (du[i] == <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="comment">// find a node in circle</span></span><br><span class="line">            <span class="keyword">int</span> u = i;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; circle_node - <span class="number">1</span>; ++j) &#123;</span><br><span class="line">                --du[u];</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">auto</span> v : vec[u]) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (du[v] == <span class="number">2</span>) &#123;</span><br><span class="line">                        ans.emplace_back(u, v);</span><br><span class="line">                        u = v;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            ans.emplace_back(u, i);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;p : ans) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d -&gt; %d\n"</span>, p.first, p.second);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><p>设 $\text{dis}(i, j)$ 表示点 $i$ 和点 $j$ 之间的曼哈顿距离。那么有 $\text{dis}(i, j) = \mid x_i-x_j\mid + \mid y_i - y_j\mid$。</p>
+<ul>
+<li>如果不经过传送点，那么显然直接从 $i$ 到 $j$ 是最优的。否则存在点 $k$，有 $\text{dis}(i, k) + \text{dis}(k, j) &lt; \text{dis}(i, j)$，这显然是恒假的。所以从 $i$ 到 $j$ 的最短路就是 $\text{dis}(i, j)$。</li>
+<li>如果要经过传送点，那么一定是点 $i$ 到距离其最近的传送点进入，从离点 $j$ 最近的传送点出来，然后到点 $j$。</li>
+</ul>
+<p>时间复杂度 $\mathcal{O}(n)$。</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;&gt; dot;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; t;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">solve</span><span class="params">(<span class="built_in">std</span>::pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;x, <span class="built_in">std</span>::pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ansx = <span class="built_in">std</span>::<span class="built_in">abs</span>(y.first - x.first), ansy = <span class="built_in">std</span>::<span class="built_in">abs</span>(y.second - x.second);</span><br><span class="line">    <span class="keyword">int</span> ans = ansx + ansy;</span><br><span class="line">    ansx = INT_MAX;</span><br><span class="line">    ansy = INT_MAX;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!t[i]) <span class="keyword">continue</span>;</span><br><span class="line">        ansx = <span class="built_in">std</span>::min(ansx, <span class="built_in">std</span>::<span class="built_in">abs</span>(dot[i].first - x.first) + <span class="built_in">std</span>::<span class="built_in">abs</span>(dot[i].second - x.second));</span><br><span class="line">        ansy = <span class="built_in">std</span>::min(ansy, <span class="built_in">std</span>::<span class="built_in">abs</span>(dot[i].first - y.first) + <span class="built_in">std</span>::<span class="built_in">abs</span>(dot[i].second - y.second));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ansx != INT_MAX) &#123;</span><br><span class="line">        ans = <span class="built_in">std</span>::min(ans, ansx + ansy);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">        <span class="keyword">int</span> tmp1, tmp2, tmp3;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>, &amp;tmp1, &amp;tmp2);</span><br><span class="line">        dot.emplace_back(tmp1, tmp2);</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;tmp3);</span><br><span class="line">        t.emplace_back(tmp3);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> x, y;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>, &amp;x, &amp;y);</span><br><span class="line">    <span class="keyword">int</span> ans = solve(dot[x], dot[y]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, ans);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/corsical">Projects</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://pseudo-co.de/2019/12/07/algorithm-homework-3/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://pseudo-co.de/2019/12/07/algorithm-homework-3/&text=Algorithm-Homework-3"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://pseudo-co.de/2019/12/07/algorithm-homework-3/&title=Algorithm-Homework-3"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://pseudo-co.de/2019/12/07/algorithm-homework-3/&is_video=false&description=Algorithm-Homework-3"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Algorithm-Homework-3&body=Check out this article: https://pseudo-co.de/2019/12/07/algorithm-homework-3/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://pseudo-co.de/2019/12/07/algorithm-homework-3/&title=Algorithm-Homework-3"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://pseudo-co.de/2019/12/07/algorithm-homework-3/&title=Algorithm-Homework-3"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://pseudo-co.de/2019/12/07/algorithm-homework-3/&title=Algorithm-Homework-3"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://pseudo-co.de/2019/12/07/algorithm-homework-3/&title=Algorithm-Homework-3"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://pseudo-co.de/2019/12/07/algorithm-homework-3/&name=Algorithm-Homework-3&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2021 Junjie Wu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/corsical">Projects</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
