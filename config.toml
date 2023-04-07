@@ -1,5 +1,5 @@
 # The URL the site will be built for
-base_url = "//clatis.us/"
+base_url = "https://clatis.us/"
 
 # The site title and description; used in feeds by default.
 title = "Junjie Wu"
