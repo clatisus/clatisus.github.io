@@ -81,8 +81,9 @@
                 {% if page.extra.author %}
                     {{extra.posted_by }} <a href="{{ page.extra.author.social }}" target="_blank">{{ page.extra.author.name }}</a>
                 {% endif %}
-                {{ extra.posted_on }} {{ page.date | date(format="%Y-%m-%d") }}
-
+                {% if page.date %}
+                    {{ extra.posted_on }} {{ page.date | date(format="%Y-%m-%d") }}
+                {% endif %}
                 {% if page.draft %}
                     <span class="draft-label">DRAFT</span>
                 {% endif %}
@@ -94,6 +95,27 @@
                 <strong>tl;dr:</strong>
                 {{ page.extra.tldr }}
             </div>
+        {% endif %}
+
+        {% if page.toc %}
+            <section class="toc">
+                <ul>
+                {% for h1 in page.toc %}
+                    <li>
+                        <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
+                        {% if h1.children %}
+                            <ul>
+                                {% for h2 in h1.children %}
+                                    <li>
+                                        <a href="{{ h2.permalink | safe }}">{{ h2.title }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                </ul>
+            </section>
         {% endif %}
 
         <section class="body">

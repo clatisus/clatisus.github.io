@@ -3,7 +3,7 @@ base_url = "https://clatis.us/"
 
 # The site title and description; used in feeds by default.
 title = "Junjie Wu"
-description = "A curious engineer, perpetually expanding knowledge through relentless learning."
+description = "An ENFJ-T engineer, writes about programming, life, and everything in between."
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
@@ -54,6 +54,11 @@ menus = [
 icon = "github"
 name = "GitHub"
 url = "https://github.com/clatisus"
+
+[[extra.social]]
+icon = "linkedin"
+name = "LinkedIn"
+url = "https://www.linkedin.com/in/junjie-wu-867051166"
 
 [[extra.social]]
 icon = "mail"
