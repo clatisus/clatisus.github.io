@@ -1,7 +1,7 @@
 +++
 title = "Rust Type Coercion and the Dot Operator Explained"
-date = "2023-04-08"
-description = "For Rust beginners (like me), it has always been a mystery why some types suddenly transform into one another, and why some method calls with mismatched parameter types succeed. Well, the magic behind this is actually called *Type Coercion*. In this post, we will explore various type coercions and then explain how the dot operator works by applying the type coercion concepts we have learned."
+date = "2023-04-21"
+description = "For Rust beginners (like me), it has always been a mystery why some types suddenly transform into one another, and why some method calls with mismatched parameter types succeed. Well, the magic behind this is actually called *Type Coercion*. In this post, we will explore various type coercions and then explain how the dot operator works by applying the type coercion concepts we have learned (and some other features)."
 
 [taxonomies]
 tags = ["Rust"]
