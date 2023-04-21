@@ -76,7 +76,12 @@
 <main>
     <article>
         <div class="title">
-            <h1 class="title">{{ page.title }}</h1>
+            <div style="display:flex;">
+                <h1 class="title">{{ page.title }}</h1>
+                <a class="edit" href="https://github.com/clatisus/clatisus.github.io/edit/master/content/{{ page.relative_path }}" title="Suggest an edit">
+                    <i data-feather="edit"></i>
+                </a>
+            </div>
             <div class="meta">
                 {% if page.extra.author %}
                     {{extra.posted_by }} <a href="{{ page.extra.author.social }}" target="_blank">{{ page.extra.author.name }}</a>

@@ -206,6 +206,13 @@ h6::before {
     content: "###### ";
 }
 
+.edit {
+    display: flex;
+    margin-top: 2.5em;
+    margin-bottom: 1em;
+    border-bottom: none;
+}
+
 .meta {
     color: #999;
     letter-spacing: -0.5px;
