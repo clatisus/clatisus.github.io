@@ -41,7 +41,7 @@ fn main() {
 }
 ```
 
-The example is quite clear, and what it does behind the scenes is that the `takes_shared_ref(&mut a);` will be desugared to a re-borrow `takes_shared_ref(&*(&mut a));`.
+The example is quite clear, and what it does behind the scenes is that the `takes_shared_ref(&mut a);` will be de-sugared to a re-borrow `takes_shared_ref(&*(&mut a));`.
 
 One thing to note is that in the above example, even though the mutable reference is dropped upon re-borrow, **its lifetime does not ended**[^downgrade_mut_lifetime]. Let's take a look at another example:
 ```rust
@@ -70,7 +70,7 @@ error[E0502]: cannot borrow `a` as immutable because it is also borrowed as muta
   |          - mutable borrow later used here
 ```
 
-So even though the mutable reference has been downgraded to an immutable reference, the borrow checker still considers its lifetime as not eded. This might seem strange, but it actually guarantees memory safety.
+So even though the mutable reference has been downgraded to an immutable reference, the borrow checker still considers its lifetime as not ended. This might seem strange, but it actually guarantees memory safety.
 
 Consider the following code:
 ```rust
@@ -209,9 +209,9 @@ fn main() {
 
 **Rule**: `T` -> `U` if `T` is a [subtype](https://doc.rust-lang.org/reference/subtyping.html) of `U`
 
-Besides *parametric* polymorphism, Rust also supports *subtype* polymorphism, but only for lifetimes (maybe it should be called *subtime*).
+Besides *parametric* polymorphism, Rust also supports *subtype* polymorphism, but only for lifetimes (maybe it should be called *sub-time*).
 
-The gist of subtyping in Rust is that if `'a` outlives `'b`, then `&'a T` is a subtype of `&'b T` (the longer-lived lifetime is the subtype, and the shorter-lived one is the super type).
+The gist of sub-typing in Rust is that if `'a` outlives `'b`, then `&'a T` is a subtype of `&'b T` (the longer-lived lifetime is the subtype, and the shorter-lived one is the super type).
 
 The coercions means that lifetimes can be *shortened* at coercion sites, for example:
 ```rust
@@ -245,7 +245,7 @@ error[E0597]: `local` does not live long enough
    | - `local` dropped here while still borrowed
 ```
 
-To support both parametric and subtype polymorphism, we need to answer how *generic types' subtyping relationships* relate to *the subtyping relationships of their generic parameters*. Well, the answer is called *variance*.
+To support both parametric and subtype polymorphism, we need to answer how *generic types' sub-typing relationships* relate to *the sub-typing relationships of their generic parameters*. Well, the answer is called *variance*.
 
 - **Covariance**: for some type `A<T>`, if `T` is a subtype of `U`, `A<T>` is a subtype of `A<U>`.
 ```rust
@@ -269,7 +269,7 @@ where
     a
 }
 ```
-- **Invariance**: for some type `A<T>`, no subtyping relationship exists between `A<T>` and any other type `A<U>`.
+- **Invariance**: for some type `A<T>`, no sub-typing relationship exists between `A<T>` and any other type `A<U>`.
 
 ### Never coercions
 
@@ -353,7 +353,7 @@ fn main() {
 
 ### Least upper bound coercions
 
-In some cases, Rust needs to perform coercions for mutiple types at once. This coercion can be triggered by:
+In some cases, Rust needs to perform coercions for multiple types at once. This coercion can be triggered by:
 
 - A series of `if/else` branches.
 - A series of `match` arms.
@@ -426,7 +426,7 @@ let first_entry = array[0];
 ```
 
 How does the compiler actually compute `array[0]` when the array is behind so many indirections?
-- First, `array[0]` is just sytax sugar for the [`Index`](https://doc.rust-lang.org/std/ops/trait.Index.html) trait, it will be desugared into `array.index(0)`.
+- First, `array[0]` is just syntax sugar for the [`Index`](https://doc.rust-lang.org/std/ops/trait.Index.html) trait, it will be de-sugared into `array.index(0)`.
 ```rust
 pub trait Index<Idx>
 where
