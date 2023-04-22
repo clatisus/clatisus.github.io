@@ -40,13 +40,12 @@ next_page = "Next →"
 posted_on = "on "
 posted_by = "Published by"
 read_time = "minute read"
-all_tags = "All tags"
 
 menus = [
-    { name = "Home", url = "/", weight = 2 },
-    { name = "All posts", url = "/posts", weight = 2 },
-    { name = "About", url = "/about", weight = 3 },
-    { name = "Tags", url = "/tags", weight = 4 },
+    { name = "Home", url = "/" },
+    { name = "Posts", url = "/posts" },
+    { name = "About", url = "/about" },
+    { name = "Tags", url = "/tags" },
 ]
 
 # config social icon info in the footer

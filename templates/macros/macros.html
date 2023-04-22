@@ -32,6 +32,7 @@
             {% if page.extra.author %}
                 <span>| {{extra.posted_by }} <a href="{{ page.extra.author.social }}" target="_blank">{{ page.extra.author.name }}</a></span>
             {% endif %}
+            {{ post_macros::tags(page=page, short=true) }}
 
             <br />
             <div class="description">
@@ -78,7 +79,7 @@
         <div class="title">
             <div style="display:flex;">
                 <h1 class="title">{{ page.title }}</h1>
-                <a class="edit" href="https://github.com/clatisus/clatisus.github.io/edit/master/content/{{ page.relative_path }}" title="Suggest an edit">
+                <a class="edit" href="https://github.com/clatisus/clatisus.github.io/edit/master/content/{{ page.relative_path }}"" title="Suggest an edit">
                     <i data-feather="edit"></i>
                 </a>
             </div>
@@ -92,6 +93,7 @@
                 {% if page.draft %}
                     <span class="draft-label">DRAFT</span>
                 {% endif %}
+                {{ post_macros::tags(page=page) }}
             </div>
         </div>
 
@@ -126,19 +128,6 @@
         <section class="body">
             {{ page.content | safe }}
         </section>
-
-        {% if page.taxonomies and page.taxonomies.tags %}
-            <div class="post-tags">
-                <nav class="nav tags">
-                    <ul class="tags">
-                        {% for tag in page.taxonomies.tags %}
-                            <li><a href={{ get_taxonomy_url(kind='tags', name=tag) | safe }}>{{ tag }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </nav>
-            </div>
-        {% endif %}
-
     </article>
 </main>
 {% endmacro content %}

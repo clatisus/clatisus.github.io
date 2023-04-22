@@ -5,7 +5,7 @@
 
     <nav>
         {% for menu in config.extra.menus %}
-            <a href={{ menu.url }}>{{ menu.name }}</a>
+            <a class="menu" href={{ menu.url }}>{{ menu.name }}</a>
         {% endfor %}
 
         {% if config.extra.mode == "toggle" %}
