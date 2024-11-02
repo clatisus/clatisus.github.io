@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    
+        <title>
+             Rust Type Coercion and the Dot Operator Explained
+            
+        </title>
+
+        
+            <meta property="og:title" content="Rust Type Coercion and the Dot Operator Explained" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="For Rust beginners (like me), it has always been a mystery why some types suddenly transform into one another, and why some method calls with mismatched parameter types succeed. Well, the magic behind this is actually called *Type Coercion*. In this post, we will explore various type coercions and then explain how the dot operator works by applying the type coercion concepts we have learned (and some other features)." />
+        
+    
+
+    
+        
+            <meta name="description" content="For Rust beginners (like me), it has always been a mystery why some types suddenly transform into one another, and why some method calls with mismatched parameter types succeed. Well, the magic behind this is actually called *Type Coercion*. In this post, we will explore various type coercions and then explain how the dot operator works by applying the type coercion concepts we have learned (and some other features)." />
+        
+    
+
+    
+         <link rel="icon" type="image/png" href=&#x2F;icon&#x2F;favicon.png />
+    
+
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-C7NNSNC2Y1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-C7NNSNC2Y1');
+        </script>
+    
+
+    
+    
+        <script src=https://clatis.us/js/feather.min.js></script>
+    
+
+
+    
+        <link href=https://clatis.us/css/fonts.css rel="stylesheet" />
+    
+
+    <link rel="stylesheet" type="text/css" media="screen" href=https://clatis.us/css/main.css />
+
+    
+        <link
+            rel="stylesheet"
+            id="darkModeStyle"
+            type="text/css"
+            href=https://clatis.us/css/dark.css
+            
+            
+                disabled
+            
+        />
+    
+
+
+    
+
+
+</head>
+
+
+<body>
+    <div class="content">
+        <header>
+    <div class="main" id="main_title">
+        <a href=https:&#x2F;&#x2F;clatis.us&#x2F;>Junjie Wu</a>
+    </div>
+
+    <nav>
+        
+            <a class="menu" href=&#x2F;>Home</a>
+        
+            <a class="menu" href=&#x2F;posts>Posts</a>
+        
+            <a class="menu" href=&#x2F;about>About</a>
+        
+            <a class="menu" href=&#x2F;tags>Tags</a>
+        
+
+        
+            | <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+            <script src=https://clatis.us/js/themetoggle.js></script>
+        
+    </nav>
+</header>
+
+
+        
+    
+<main>
+    <article>
+        <div class="title">
+            <div style="display:flex;">
+                <h1 class="title">Rust Type Coercion and the Dot Operator Explained</h1>
+                <a class="edit" href="https://github.com/clatisus/clatisus.github.io/edit/master/content/posts&#x2F;rust-type-coercion-and-the-dot-operator-explained.md"" title="Suggest an edit">
+                    <i data-feather="edit"></i>
+                </a>
+            </div>
+            <div class="meta">
+                
+                
+                    on  2023-04-21
+                
+                
+                
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://clatis.us/tags/rust/">#Rust</a></span>
+    
+            </div>
+        </div>
+
+        
+
+        
+            <section class="toc">
+                <ul>
+                
+                    <li>
+                        <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#what-is-a-type-coercion">What is a type coercion?</a>
+                        
+                    </li>
+                
+                    <li>
+                        <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#exploring-different-coercions">Exploring different coercions</a>
+                        
+                            <ul>
+                                
+                                    <li>
+                                        <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#transitive-coercions">Transitive coercions</a>
+                                    </li>
+                                
+                                    <li>
+                                        <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#reference-downgrade-coercions">Reference downgrade coercions</a>
+                                    </li>
+                                
+                                    <li>
+                                        <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#deref-coercions">Deref coercions</a>
+                                    </li>
+                                
+                                    <li>
+                                        <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#raw-pointer-coercions">Raw pointer coercions</a>
+                                    </li>
+                                
+                                    <li>
+                                        <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#reference-raw-pointer-coercions">Reference &amp; raw pointer coercions</a>
+                                    </li>
+                                
+                                    <li>
+                                        <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#function-pointer-coercions">Function pointer coercions</a>
+                                    </li>
+                                
+                                    <li>
+                                        <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#subtype-coercions">Subtype coercions</a>
+                                    </li>
+                                
+                                    <li>
+                                        <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#never-coercions">Never coercions</a>
+                                    </li>
+                                
+                                    <li>
+                                        <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#unsized-coercions">Unsized coercions</a>
+                                    </li>
+                                
+                                    <li>
+                                        <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#least-upper-bound-coercions">Least upper bound coercions</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </li>
+                
+                    <li>
+                        <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#coercion-sites">Coercion sites</a>
+                        
+                    </li>
+                
+                    <li>
+                        <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#the-dot-operator">The dot operator</a>
+                        
+                    </li>
+                
+                </ul>
+            </section>
+        
+
+        <section class="body">
+            <h2 id="what-is-a-type-coercion">What is a type coercion?</h2>
+<p>So, what exactly is type coercion and why should we care about it?</p>
+<p>Type coercion is simply an implicit type conversion. You might have seen implicit type conversions in many other languages, such as <code>C++</code>. In <code>C++</code>, when you write <code>int a = 4 + 5.2;</code>, two type coercion occurs. One happens on the operator <code>+</code>, from <code>int</code> to <code>double</code>. Another takes place on the assignment <code>=</code>, from <code>double</code> to <code>int</code>.</p>
+<p>In Rust, you can perform explicit type conversion using the type cast operator <code>as</code>. Any conversions allowed by coercion can also be explicitly performed by <code>as</code>, but not vice versa. You have to write <code>let a: i32 = ((4 as f64) + 5.2) as i32;</code> to achieve the equivalent of the above example, as type coercion does not work here.</p>
+<p>Getting to know type coercion can enable you to write idiomatic Rust code and help you understand how other code works. Let's get started exploring different coercions and where they can occur.</p>
+<h2 id="exploring-different-coercions">Exploring different coercions</h2>
+<p>There isn't a formal definition of all coercions yet, and the reason for this is well explained in this blog<sup class="footnote-reference"><a href="#what-can-coerce-and-where-in-rust">1</a></sup>. I will do my best to provide appropriate examples to help you understand what does each coercion means.</p>
+<h3 id="transitive-coercions">Transitive coercions</h3>
+<p><strong>Rule</strong>: if <code>A</code> -&gt; <code>B</code> and <code>B</code> -&gt; <code>C</code> is possible, then <code>A</code> -&gt; <code>C</code> is also possible</p>
+<p>Note that this is not fully supported yet, and is currently a best-effort feature.</p>
+<h3 id="reference-downgrade-coercions">Reference downgrade coercions</h3>
+<p><strong>Rule</strong>: <code>&amp;mut T</code> -&gt; <code>&amp;T</code></p>
+<p>A mutable reference can downgrade to an immutable reference. Let's take a look at an example:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">takes_shared_ref</span><span>(</span><span style="color:#e45649;">_n</span><span>: </span><span style="color:#a626a4;">&amp;i32</span><span>) {}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">let mut</span><span> a </span><span style="color:#a626a4;">= </span><span style="color:#c18401;">10</span><span>;
+</span><span>    </span><span style="color:#0184bc;">takes_shared_ref</span><span>(</span><span style="color:#a626a4;">&amp;mut</span><span> a);
+</span><span>}
+</span></code></pre>
+<p>The example is quite clear, and what it does behind the scenes is that the <code>takes_shared_ref(&amp;mut a);</code> will be de-sugared to a re-borrow <code>takes_shared_ref(&amp;*(&amp;mut a));</code>.</p>
+<p>One thing to note is that in the above example, even though the mutable reference is dropped upon re-borrow, <strong>its lifetime does not ended</strong><sup class="footnote-reference"><a href="#downgrade_mut_lifetime">2</a></sup>. Let's take a look at another example:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">downgrade_to_shared_ref</span><span>(</span><span style="color:#e45649;">n</span><span>: </span><span style="color:#a626a4;">&amp;i32</span><span>) -&gt; </span><span style="color:#a626a4;">&amp;i32 </span><span>{
+</span><span>    n
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">let mut</span><span> a </span><span style="color:#a626a4;">= </span><span style="color:#c18401;">10</span><span>;
+</span><span>    </span><span style="color:#a626a4;">let</span><span> b </span><span style="color:#a626a4;">= </span><span style="color:#0184bc;">downgrade_to_shared_ref</span><span>(</span><span style="color:#a626a4;">&amp;mut</span><span> a);
+</span><span>    </span><span style="color:#a626a4;">let</span><span> c </span><span style="color:#a626a4;">= &amp;</span><span>a;
+</span><span>    dbg!(b, c);
+</span><span>}
+</span></code></pre>
+<p>This results in the following error:</p>
+<pre data-lang="bash" style="background-color:#fafafa;color:#383a42;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#e45649;">error[E0502]:</span><span> cannot borrow `</span><span style="color:#e45649;">a</span><span>` as immutable because it is also borrowed as mutable
+</span><span> </span><span style="color:#e45649;">--</span><span style="color:#a626a4;">&gt;</span><span> src/main.rs:8:13
+</span><span>  </span><span style="color:#a626a4;">|
+</span><span style="color:#e45649;">7 </span><span style="color:#a626a4;">|     </span><span style="color:#0184bc;">let</span><span> b </span><span style="color:#a626a4;">=</span><span> downgrade_to_shared_ref(</span><span style="color:#a626a4;">&amp;</span><span>mut a);
+</span><span>  </span><span style="color:#a626a4;">|                                     </span><span style="color:#e45649;">------</span><span> mutable borrow occurs here
+</span><span style="color:#e45649;">8 </span><span style="color:#a626a4;">|     </span><span style="color:#0184bc;">let</span><span> c </span><span style="color:#a626a4;">= &amp;</span><span>a;
+</span><span>  </span><span style="color:#a626a4;">|             </span><span style="color:#e45649;">^^</span><span> immutable borrow occurs here
+</span><span style="color:#e45649;">9 </span><span style="color:#a626a4;">|     </span><span style="color:#e45649;">dbg!</span><span>(b, c)</span><span style="color:#a626a4;">;
+</span><span>  </span><span style="color:#a626a4;">|          </span><span style="color:#e45649;">-</span><span> mutable borrow later used here
+</span></code></pre>
+<p>So even though the mutable reference has been downgraded to an immutable reference, the borrow checker still considers its lifetime as not ended. This might seem strange, but it actually guarantees memory safety.</p>
+<p>Consider the following code:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">use </span><span>std::sync::Mutex;
+</span><span>
+</span><span style="color:#a626a4;">struct </span><span>Struct {
+</span><span>    </span><span style="color:#e45649;">mutex</span><span>: Mutex&lt;String&gt;
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">let mut</span><span> s </span><span style="color:#a626a4;">=</span><span> Struct {
+</span><span>        mutex: Mutex::new(</span><span style="color:#50a14f;">&quot;string&quot;</span><span>.</span><span style="color:#0184bc;">to_owned</span><span>())
+</span><span>    };
+</span><span>    </span><span style="color:#a626a4;">let</span><span> str_mut: </span><span style="color:#a626a4;">&amp;mut str =</span><span> s.mutex.</span><span style="color:#0184bc;">get_mut</span><span>().</span><span style="color:#0184bc;">unwrap</span><span>();
+</span><span>    </span><span style="color:#a626a4;">let</span><span> str_shared: </span><span style="color:#a626a4;">&amp;str =</span><span> str_mut; </span><span style="color:#a0a1a7;">// if str_mut&#39;s lifetime end here, the code compiles
+</span><span>
+</span><span>    </span><span style="color:#a626a4;">*</span><span>s.mutex.</span><span style="color:#0184bc;">lock</span><span>().</span><span style="color:#0184bc;">unwrap</span><span>() </span><span style="color:#a626a4;">= </span><span style="color:#50a14f;">&quot;str_shared becomes a dangling pointer&quot;</span><span>.</span><span style="color:#0184bc;">to_owned</span><span>();
+</span><span>
+</span><span>    dbg!(str_shared);
+</span><span>}
+</span></code></pre>
+<p>This also results in the same error:</p>
+<pre data-lang="bash" style="background-color:#fafafa;color:#383a42;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#e45649;">error[E0502]:</span><span> cannot borrow `</span><span style="color:#e45649;">s.mutex</span><span>` as immutable because it is also borrowed as mutable
+</span><span>  </span><span style="color:#e45649;">--</span><span style="color:#a626a4;">&gt;</span><span> src/main.rs:14:6
+</span><span>   </span><span style="color:#a626a4;">|
+</span><span style="color:#e45649;">11 </span><span style="color:#a626a4;">|     </span><span style="color:#0184bc;">let</span><span> str_mut</span><span style="color:#a626a4;">: &amp;</span><span>mut str </span><span style="color:#a626a4;">=</span><span> s.mutex.get_mut().unwrap();
+</span><span>   </span><span style="color:#a626a4;">|                             </span><span style="color:#e45649;">-----------------</span><span> mutable borrow occurs here
+</span><span style="color:#e45649;">...
+</span><span style="color:#e45649;">14 </span><span style="color:#a626a4;">|     </span><span style="color:#0184bc;">*s.mutex.lock</span><span>().unwrap() = &quot;str_shared becomes a dangling pointer&quot;.to_owned();
+</span><span>   |      ^^^^^^^^^^^^^^ immutable borrow occurs here
+</span><span>15 |
+</span><span>16 |     dbg!(</span><span style="color:#e45649;">str_shared</span><span>)</span><span style="color:#a626a4;">;
+</span><span>   </span><span style="color:#a626a4;">|          </span><span style="color:#e45649;">----------</span><span> mutable borrow later used here
+</span></code></pre>
+<p>If <code>str_mut</code>'s lifetime ended when it was downgraded, the code would compile, and a dangling pointer would be introduced.</p>
+<h3 id="deref-coercions">Deref coercions</h3>
+<p><strong>Rule</strong>:</p>
+<ul>
+<li>if <code>T</code> implements <code>Deref&lt;Target=U&gt;</code>
+<ul>
+<li><code>&amp;T</code> -&gt; <code>&amp;U</code></li>
+<li><code>&amp;mut T</code> -&gt; <code>&amp;U</code> (<em>transitive</em>)</li>
+</ul>
+</li>
+<li>if <code>T</code> implements <code>DerefMut&lt;Target=U&gt;</code>
+<ul>
+<li><code>&amp;mut T</code> -&gt; <code>&amp;mut U</code></li>
+</ul>
+</li>
+</ul>
+<p>Your type can opt in these coercions by implementing the <code>Deref</code> or <code>DerefMut</code> trait.</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">pub trait </span><span>Deref {
+</span><span>    </span><span style="color:#a626a4;">type </span><span>Target: </span><span style="color:#a626a4;">?</span><span>Sized;
+</span><span>
+</span><span>    </span><span style="color:#a626a4;">pub fn </span><span style="color:#0184bc;">deref</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">self</span><span>) -&gt; </span><span style="color:#a626a4;">&amp;Self::</span><span>Target;
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">pub trait </span><span>DerefMut: Deref {
+</span><span>    </span><span style="color:#a626a4;">pub fn </span><span style="color:#0184bc;">deref_mut</span><span>(</span><span style="color:#a626a4;">&amp;mut </span><span style="color:#e45649;">self</span><span>) -&gt; </span><span style="color:#a626a4;">&amp;mut Self::</span><span>Target;
+</span><span>}
+</span></code></pre>
+<p>Having deref coercions enables us to use containers transparently as the type they contain (e.g. smart pointers), here's an example for <code>Box&lt;String&gt;</code>.</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">count</span><span>(</span><span style="color:#e45649;">s</span><span>: </span><span style="color:#a626a4;">&amp;str</span><span>) -&gt; </span><span style="color:#a626a4;">usize </span><span>{
+</span><span>    s.</span><span style="color:#0184bc;">len</span><span>()
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> a: Box&lt;String&gt; </span><span style="color:#a626a4;">= </span><span>Box::new(</span><span style="color:#50a14f;">&quot;hello, world&quot;</span><span>.</span><span style="color:#0184bc;">to_string</span><span>());
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;</span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#0184bc;">count</span><span>(</span><span style="color:#a626a4;">&amp;</span><span>a))
+</span><span>}
+</span></code></pre>
+<p>The simple example above contains two deref coercions:</p>
+<ul>
+<li><code>&amp;Box&lt;String&gt;</code> -&gt; <code>&amp;String</code> (<code>Box&lt;String&gt;</code> implements <code>Deref&lt;Target=String&gt;</code>)</li>
+<li><code>&amp;String</code> -&gt; <code>&amp;str</code> (<code>String</code> implements <code>Deref&lt;Target=str&gt;</code>)</li>
+</ul>
+<p>Another thing to note is that <code>&amp;mut T</code> -&gt; <code>&amp;U</code> coercion calls <code>deref</code> instead of <code>deref_mut</code> (you might think of <code>&amp;mut T</code> --<em>deref_mut</em>--&gt; <code>&amp;mut U</code> --<em>downgrade</em>--&gt; <code>&amp;U</code>, which is not the case), for example:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">use </span><span>std::ops::{Deref, DerefMut};
+</span><span>
+</span><span style="color:#a626a4;">struct </span><span>My(</span><span style="color:#a626a4;">i32</span><span>);
+</span><span>
+</span><span style="color:#a626a4;">impl </span><span>Deref </span><span style="color:#a626a4;">for </span><span>My {
+</span><span>    </span><span style="color:#a626a4;">type </span><span>Target </span><span style="color:#a626a4;">= i32</span><span>;
+</span><span>    </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">deref</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">self</span><span>) -&gt; </span><span style="color:#a626a4;">&amp;Self::</span><span>Target {
+</span><span>        Box::leak(Box::new(</span><span style="color:#e45649;">self</span><span>.</span><span style="color:#c18401;">0 </span><span style="color:#a626a4;">+ </span><span style="color:#c18401;">1</span><span>))
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">impl </span><span>DerefMut </span><span style="color:#a626a4;">for </span><span>My {
+</span><span>    </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">deref_mut</span><span>(</span><span style="color:#a626a4;">&amp;mut </span><span style="color:#e45649;">self</span><span>) -&gt; </span><span style="color:#a626a4;">&amp;mut Self::</span><span>Target {
+</span><span>        Box::leak(Box::new(</span><span style="color:#e45649;">self</span><span>.</span><span style="color:#c18401;">0 </span><span style="color:#a626a4;">+ </span><span style="color:#c18401;">10</span><span>))
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">use_ref</span><span>(</span><span style="color:#e45649;">a</span><span>: </span><span style="color:#a626a4;">&amp;i32</span><span>) {
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;use_ref </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, a);
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#0184bc;">use_ref</span><span>(</span><span style="color:#a626a4;">&amp;mut</span><span> My(</span><span style="color:#c18401;">10</span><span>)); </span><span style="color:#a0a1a7;">// prints `use_ref 11`
+</span><span>}
+</span></code></pre>
+<h3 id="raw-pointer-coercions">Raw pointer coercions</h3>
+<p><strong>Rule</strong>: <code>*mut T</code> -&gt; <code>*const T</code></p>
+<p>Similar to <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#reference-downgrade-coercions">Reference downgrade coercions</a>, pointers can also be downgraded.</p>
+<h3 id="reference-raw-pointer-coercions">Reference &amp; raw pointer coercions</h3>
+<p><strong>Rule</strong>:</p>
+<ul>
+<li><code>&amp;T</code> -&gt; <code>*const T</code></li>
+<li><code>&amp;mut T</code> -&gt; <code>*mut T</code></li>
+</ul>
+<p>This is useful when you want to pass a reference to a C function.</p>
+<h3 id="function-pointer-coercions">Function pointer coercions</h3>
+<p><strong>Rule</strong>: Closures without any captured variables can coerce to function pointers.</p>
+<p>Example:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">call_with</span><span>(</span><span style="color:#e45649;">f</span><span>: </span><span style="color:#a626a4;">fn</span><span>(</span><span style="color:#a626a4;">i32</span><span>) -&gt; </span><span style="color:#a626a4;">i32</span><span>, </span><span style="color:#e45649;">a</span><span>: </span><span style="color:#a626a4;">i32</span><span>) {
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;</span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#0184bc;">f</span><span>(a))
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#0184bc;">call_with</span><span>(|</span><span style="color:#e45649;">x</span><span>| x </span><span style="color:#a626a4;">* </span><span style="color:#c18401;">2</span><span>, </span><span style="color:#c18401;">10</span><span>)
+</span><span>}
+</span></code></pre>
+<h3 id="subtype-coercions">Subtype coercions</h3>
+<p><strong>Rule</strong>: <code>T</code> -&gt; <code>U</code> if <code>T</code> is a <a href="https://doc.rust-lang.org/reference/subtyping.html">subtype</a> of <code>U</code></p>
+<p>Besides <em>parametric</em> polymorphism, Rust also supports <em>subtype</em> polymorphism, but only for lifetimes (maybe it should be called <em>sub-time</em>).</p>
+<p>The gist of sub-typing in Rust is that if <code>'a</code> outlives <code>'b</code>, then <code>&amp;'a T</code> is a subtype of <code>&amp;'b T</code> (the longer-lived lifetime is the subtype, and the shorter-lived one is the super type).</p>
+<p>The coercions means that lifetimes can be <em>shortened</em> at coercion sites, for example:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">shorten_lifetime</span><span>&lt;</span><span style="color:#a626a4;">&#39;a</span><span>&gt;(</span><span style="color:#e45649;">a</span><span>: </span><span style="color:#a626a4;">&amp;&#39;a str</span><span>) {
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;</span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, a)
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">lengthen_lifetime</span><span>(</span><span style="color:#e45649;">a</span><span>: </span><span style="color:#a626a4;">&amp;&#39;static str</span><span>) {
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;</span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, a)
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#0184bc;">shorten_lifetime</span><span>(</span><span style="color:#50a14f;">&quot;Static&quot;</span><span>);
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// let local = &quot;local&quot;.to_string();
+</span><span>    </span><span style="color:#a0a1a7;">// lengthen_lifetime(&amp;local)
+</span><span>}
+</span></code></pre>
+<p>If we uncomment the last two lines, results in error:</p>
+<pre data-lang="bash" style="background-color:#fafafa;color:#383a42;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#e45649;">error[E0597]: </span><span>`</span><span style="color:#a626a4;">local</span><span>` does not live long enough
+</span><span>  </span><span style="color:#e45649;">--</span><span style="color:#a626a4;">&gt;</span><span> src/main.rs:13:23
+</span><span>   </span><span style="color:#a626a4;">|
+</span><span style="color:#e45649;">13 </span><span style="color:#a626a4;">|     </span><span style="color:#e45649;">lengthen_lifetime</span><span>(</span><span style="color:#a626a4;">&amp;local</span><span>)
+</span><span>   </span><span style="color:#a626a4;">|     </span><span style="color:#e45649;">------------------^^^^^^-
+</span><span>   </span><span style="color:#a626a4;">|     |                 |
+</span><span>   </span><span style="color:#a626a4;">|     |                 </span><span style="color:#e45649;">borrowed</span><span> value does not live long enough
+</span><span>   </span><span style="color:#a626a4;">|     </span><span style="color:#e45649;">argument</span><span> requires that `</span><span style="color:#a626a4;">local</span><span>` is borrowed for `</span><span style="color:#50a14f;">&#39;static`
+</span><span style="color:#50a14f;">14 | }
+</span><span style="color:#50a14f;">   | - `local` dropped here while still borrowed
+</span></code></pre>
+<p>To support both parametric and subtype polymorphism, we need to answer how <em>generic types' sub-typing relationships</em> relate to <em>the sub-typing relationships of their generic parameters</em>. Well, the answer is called <em>variance</em>.</p>
+<ul>
+<li><strong>Covariance</strong>: for some type <code>A&lt;T&gt;</code>, if <code>T</code> is a subtype of <code>U</code>, <code>A&lt;T&gt;</code> is a subtype of <code>A&lt;U&gt;</code>.</li>
+</ul>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">covariance</span><span>&lt;</span><span style="color:#a626a4;">&#39;a</span><span>, </span><span style="color:#a626a4;">&#39;b</span><span>, T&gt;(</span><span style="color:#e45649;">a</span><span>: Vec&lt;</span><span style="color:#a626a4;">&amp;&#39;a</span><span> T&gt;) -&gt; Vec&lt;</span><span style="color:#a626a4;">&amp;&#39;b</span><span> T&gt;
+</span><span style="color:#a626a4;">where
+</span><span>    </span><span style="color:#a0a1a7;">// &#39;a is a subtype of &#39;b
+</span><span>    </span><span style="color:#a0a1a7;">// then Vec&lt;&amp;&#39;a T&gt; is a subtype of Vec&lt;&amp;&#39;b T&gt;
+</span><span>    </span><span style="color:#a626a4;">&#39;a</span><span>: </span><span style="color:#a626a4;">&#39;b</span><span>,
+</span><span>{
+</span><span>    a
+</span><span>}
+</span></code></pre>
+<ul>
+<li><strong>Contravariance</strong>: for some type <code>A&lt;T&gt;</code>, if <code>T</code> is a subtype of <code>U</code>, <code>A&lt;U&gt;</code> is a subtype of <code>A&lt;T&gt;</code>.</li>
+</ul>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">contravariance</span><span>&lt;</span><span style="color:#a626a4;">&#39;a</span><span>, </span><span style="color:#a626a4;">&#39;b</span><span>, T&gt;(</span><span style="color:#e45649;">a</span><span>: </span><span style="color:#a626a4;">fn</span><span>(</span><span style="color:#a626a4;">&amp;&#39;b</span><span> T) -&gt; ()) -&gt; </span><span style="color:#a626a4;">fn</span><span>(</span><span style="color:#a626a4;">&amp;&#39;a</span><span> T) -&gt; ()
+</span><span style="color:#a626a4;">where
+</span><span>    </span><span style="color:#a0a1a7;">// &#39;a is a subtype of &#39;b
+</span><span>    </span><span style="color:#a0a1a7;">// then fn(&amp;&#39;b T) -&gt; () is a subtype of fn(&amp;&#39;a T) -&gt; ()
+</span><span>    </span><span style="color:#a626a4;">&#39;a</span><span>: </span><span style="color:#a626a4;">&#39;b</span><span>,
+</span><span>{
+</span><span>    a
+</span><span>}
+</span></code></pre>
+<ul>
+<li><strong>Invariance</strong>: for some type <code>A&lt;T&gt;</code>, no sub-typing relationship exists between <code>A&lt;T&gt;</code> and any other type <code>A&lt;U&gt;</code>.</li>
+</ul>
+<h3 id="never-coercions">Never coercions</h3>
+<p><strong>Rule</strong>: <code>!</code> -&gt; <code>T</code></p>
+<p>Never type can coerce into any type, this is especially useful when using macros like <code>unimplemented!</code>, <code>todo!</code>.</p>
+<h3 id="unsized-coercions">Unsized coercions</h3>
+<h4 id="slice-coercions">Slice coercions</h4>
+<p><strong>Rule</strong>: <code>[T; n]</code> -&gt; <code>[T]</code></p>
+<p>Example:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> a: [</span><span style="color:#a626a4;">i32</span><span>; </span><span style="color:#c18401;">5</span><span>] </span><span style="color:#a626a4;">= </span><span>[</span><span style="color:#c18401;">1</span><span>, </span><span style="color:#c18401;">2</span><span>, </span><span style="color:#c18401;">3</span><span>, </span><span style="color:#c18401;">4</span><span>, </span><span style="color:#c18401;">5</span><span>];
+</span><span>    </span><span style="color:#a626a4;">let</span><span> b: </span><span style="color:#a626a4;">&amp;</span><span>[</span><span style="color:#a626a4;">i32</span><span>] </span><span style="color:#a626a4;">= &amp;</span><span>a;
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;</span><span style="color:#c18401;">{:?}</span><span style="color:#50a14f;">&quot;</span><span>, b);
+</span><span>}
+</span></code></pre>
+<h4 id="trait-object-coercions">Trait object coercions</h4>
+<p><strong>Rule</strong>: <code>T</code> -&gt; <code>dyn U</code> (when <code>T</code> implements <code>U + Sized</code>, and <code>U</code> is <a href="https://doc.rust-lang.org/reference/items/traits.html#object-safety">object safe</a>)</p>
+<p>Example:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">trait </span><span>Countable {
+</span><span>    </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">count</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">self</span><span>) -&gt; </span><span style="color:#a626a4;">usize</span><span>;
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">impl</span><span>&lt;T, </span><span style="color:#a626a4;">const</span><span> N: </span><span style="color:#a626a4;">usize</span><span>&gt; Countable </span><span style="color:#a626a4;">for</span><span> [T; N] {
+</span><span>    </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">count</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">self</span><span>) -&gt; </span><span style="color:#a626a4;">usize </span><span>{
+</span><span>        </span><span style="color:#e45649;">self</span><span>.</span><span style="color:#0184bc;">len</span><span>()
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">impl</span><span>&lt;T&gt; Countable </span><span style="color:#a626a4;">for </span><span>Vec&lt;T&gt; {
+</span><span>    </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">count</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">self</span><span>) -&gt; </span><span style="color:#a626a4;">usize </span><span>{
+</span><span>        </span><span style="color:#e45649;">self</span><span>.</span><span style="color:#0184bc;">len</span><span>()
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">print_count</span><span>(</span><span style="color:#e45649;">ctb</span><span>: </span><span style="color:#a626a4;">&amp;</span><span>dyn Countable) {
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;</span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, ctb.</span><span style="color:#0184bc;">count</span><span>());
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#0184bc;">print_count</span><span>(</span><span style="color:#a626a4;">&amp;</span><span>[</span><span style="color:#c18401;">1</span><span>, </span><span style="color:#c18401;">2</span><span>, </span><span style="color:#c18401;">3</span><span>]);
+</span><span>    </span><span style="color:#0184bc;">print_count</span><span>(</span><span style="color:#a626a4;">&amp;</span><span>vec![</span><span style="color:#c18401;">1</span><span>, </span><span style="color:#c18401;">2</span><span>, </span><span style="color:#c18401;">3</span><span>, </span><span style="color:#c18401;">4</span><span>]);
+</span><span>}
+</span></code></pre>
+<h4 id="trailing-unsized-coercions">Trailing unsized coercions</h4>
+<p><strong>Rule</strong>: <code>Foo&lt;..., T, ...&gt;</code> to <code>Foo&lt;..., U, ...&gt;</code>, when:</p>
+<ul>
+<li><code>Foo</code> is a struct.</li>
+<li><code>T</code> implements <code>Unsize&lt;U&gt;</code>.</li>
+<li>The last field of <code>Foo</code> has a type involving <code>T</code>.</li>
+<li>If that field has type <code>Bar&lt;T&gt;</code>, then <code>Bar&lt;T&gt;</code> implements <code>Unsized&lt;Bar&lt;U&gt;&gt;</code>.</li>
+<li><code>T</code> is not part of the type of any other fields.</li>
+</ul>
+<p>Example:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span>#[</span><span style="color:#e45649;">derive</span><span>(Debug)]
+</span><span style="color:#a626a4;">struct </span><span>Foo&lt;T: </span><span style="background-color:#e06c75;color:#fafafa;">?</span><span>Sized&gt; {
+</span><span>    </span><span style="color:#e45649;">header</span><span>: </span><span style="color:#a626a4;">usize</span><span>,
+</span><span>    </span><span style="color:#e45649;">value</span><span>: T,
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> foo_array: Foo&lt;[</span><span style="color:#a626a4;">u8</span><span>; </span><span style="color:#c18401;">4</span><span>]&gt; </span><span style="color:#a626a4;">=</span><span> Foo {
+</span><span>        header: </span><span style="color:#c18401;">0</span><span>,
+</span><span>        value: [</span><span style="color:#c18401;">0</span><span>, </span><span style="color:#c18401;">1</span><span>, </span><span style="color:#c18401;">2</span><span>, </span><span style="color:#c18401;">3</span><span>],
+</span><span>    };
+</span><span>    </span><span style="color:#a626a4;">let</span><span> foo_slice_ref: </span><span style="color:#a626a4;">&amp;</span><span>Foo&lt;[</span><span style="color:#a626a4;">u8</span><span>]&gt; </span><span style="color:#a626a4;">= &amp;</span><span>foo_array;
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;</span><span style="color:#c18401;">{foo_slice_ref:?}</span><span style="color:#50a14f;">&quot;</span><span>);
+</span><span>}
+</span></code></pre>
+<h3 id="least-upper-bound-coercions">Least upper bound coercions</h3>
+<p>In some cases, Rust needs to perform coercions for multiple types at once. This coercion can be triggered by:</p>
+<ul>
+<li>A series of <code>if/else</code> branches.</li>
+<li>A series of <code>match</code> arms.</li>
+<li>A series of array elements.</li>
+<li>A series of <code>return</code>s in a closure.</li>
+<li>A series of <code>return</code>s in a function.</li>
+</ul>
+<p>We say a set of types <code>T_0..T_n</code> are to be mutually coerced to some target type <code>T_t</code>. This is computed iteratively, the target type <code>T_t</code> begins as the type <code>T_0</code>. For each new type <code>T_i</code>, we do:</p>
+<ul>
+<li>If <code>T_i</code> can be coerced to the current target type <code>T_t</code>, then no change is made.</li>
+<li>Otherwise, check whether <code>T_t</code> can be coerced to <code>T_i</code>; 
+<ul>
+<li>if so, the <code>T_t</code> is changed to <code>T_i</code>. (This check is also conditioned on whether all of the source expressions considered thus far have implicit coercions.)</li>
+<li>If not, try to compute a mutual supertype of <code>T_t</code> and <code>T_i</code>, which will become the new target type.</li>
+</ul>
+</li>
+</ul>
+<h2 id="coercion-sites">Coercion sites</h2>
+<p>Coercions can happen in many places in Rust, here are some of them:</p>
+<ul>
+<li><strong>Variable declarations</strong>: done with <code>let</code>, <code>const</code> or <code>static</code>. If type is annotated on the left hand side of the declaration, the compiler will check if the right hand side can be coerced to the type on the left hand side. </li>
+</ul>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">let</span><span> a: </span><span style="color:#a626a4;">&amp;str = &amp;</span><span>Box::new(</span><span style="color:#50a14f;">&quot;abc&quot;</span><span>.</span><span style="color:#0184bc;">to_string</span><span>()); </span><span style="color:#a0a1a7;">// &amp;Box&lt;String&gt; -&gt; &amp;String -&gt; &amp;str
+</span><span style="color:#a626a4;">let</span><span> b: </span><span style="color:#a626a4;">&amp;</span><span>[</span><span style="color:#a626a4;">i32</span><span>] </span><span style="color:#a626a4;">= &amp;</span><span>[</span><span style="color:#c18401;">1</span><span>, </span><span style="color:#c18401;">2</span><span>, </span><span style="color:#c18401;">3</span><span>, </span><span style="color:#c18401;">4</span><span>]; </span><span style="color:#a0a1a7;">// &amp;[i32; 4] -&gt; &amp;[i32]
+</span></code></pre>
+<ul>
+<li><strong>Function parameters</strong>: where the <em>actual parameter</em> is coerced into the type of the <em>formal parameter</em>. In method calls, the receiver type (<code>self</code>) is only able to use unsized coercions (explained at <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#the-dot-operator">The dot operator</a>).</li>
+<li><strong>Function results</strong></li>
+</ul>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">use </span><span>std::fmt::Display;
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">foo</span><span>(</span><span style="color:#e45649;">x</span><span>: </span><span style="color:#a626a4;">&amp;u32</span><span>) -&gt; </span><span style="color:#a626a4;">&amp;</span><span>dyn Display {
+</span><span>    x
+</span><span>}
+</span></code></pre>
+<ul>
+<li><strong>Struct/union/enum fields</strong>: where the <em>actual type</em> is coerced into the <em>formal type</em> defined in the definition of the struct.</li>
+</ul>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span>#[</span><span style="color:#e45649;">derive</span><span>(Debug)]
+</span><span style="color:#a626a4;">struct </span><span>Foo&lt;</span><span style="color:#a626a4;">&#39;a</span><span>&gt; {
+</span><span>    </span><span style="color:#e45649;">x</span><span>: </span><span style="color:#a626a4;">&amp;&#39;a i8</span><span>,
+</span><span>    </span><span style="color:#e45649;">y</span><span>: </span><span style="color:#a626a4;">&amp;&#39;a str</span><span>,
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> y </span><span style="color:#a626a4;">= &amp;</span><span>Box::new(</span><span style="color:#50a14f;">&quot;abc&quot;</span><span>.</span><span style="color:#0184bc;">to_string</span><span>());
+</span><span>    </span><span style="color:#a626a4;">let</span><span> a </span><span style="color:#a626a4;">=</span><span> Foo {
+</span><span>        x: </span><span style="color:#a626a4;">&amp;mut </span><span style="color:#c18401;">42</span><span>,
+</span><span>        y
+</span><span>    };
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;</span><span style="color:#c18401;">{:?}</span><span style="color:#50a14f;">&quot;</span><span>, a);
+</span><span>}
+</span></code></pre>
+<ul>
+<li><strong>Unsized coercions only</strong>: the followings are valid only for unsized coercions (where <code>U</code> can be obtained from <code>T</code> by <a href="https://clatis.us/posts/rust-type-coercion-and-the-dot-operator-explained/#unsized-coercions">unsized coercions</a>)
+<ul>
+<li><code>&amp;T</code> -&gt; <code>&amp;U</code></li>
+<li><code>&amp;mut T</code> -&gt; <code>&amp;mut U</code></li>
+<li><code>*const T</code> -&gt; <code>*const U</code></li>
+<li><code>*mut T</code> -&gt; <code>*mut U</code></li>
+<li><code>Box&lt;T&gt;</code> -&gt; <code>Box&lt;U&gt;</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="the-dot-operator">The dot operator</h2>
+<p>There's a lot of magics behind the dot operator. It will perform auto-referencing, auto-dereferencing, and unsized coercions until it finds a method that matches the receiver type.</p>
+<p>Suppose we have a function <code>foo</code> that has a receiver (a <code>self</code>, <code>&amp;self</code> or <code>&amp;mut self</code> parameter). Now, we call <code>value.foo()</code> where <code>value</code> is of type <code>T</code>. The compiler will try to find a method <code>foo</code> that matches the type <code>T</code> by performing the following steps:</p>
+<ul>
+<li><strong>By value</strong>: try to match the receiver type <code>T</code> directly against the method receiver type. Note we are <strong>NOT</strong> trying to find a <code>T::foo</code> method here, we are trying to find a <code>foo</code> which has a receiver type <code>T</code>.</li>
+<li><strong>Autoref</strong>: try to match the receiver type <code>&amp;T</code> or <code>&amp;mut T</code> (former has higher priority) against the method receiver type.</li>
+<li>If none of the above worked, it dereferences <code>T</code> and tries again.
+<ul>
+<li>if <code>T: Deref&lt;Target=U&gt;</code> then it tries again with type <code>U</code> instead of <code>T</code></li>
+<li>if it can't dereference <code>T</code>, it also try <em>unsizing</em> <code>T</code></li>
+</ul>
+</li>
+</ul>
+<p>Let's try to understand this with an example:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">let</span><span> array: Rc&lt;Box&lt;[T; </span><span style="color:#c18401;">3</span><span>]&gt;&gt; </span><span style="color:#a626a4;">= ...</span><span>;
+</span><span style="color:#a626a4;">let</span><span> first_entry </span><span style="color:#a626a4;">=</span><span> array[</span><span style="color:#c18401;">0</span><span>];
+</span></code></pre>
+<p>How does the compiler actually compute <code>array[0]</code> when the array is behind so many indirections?</p>
+<ul>
+<li>First, <code>array[0]</code> is just syntax sugar for the <a href="https://doc.rust-lang.org/std/ops/trait.Index.html"><code>Index</code></a> trait, it will be de-sugared into <code>array.index(0)</code>.</li>
+</ul>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">pub trait </span><span>Index&lt;Idx&gt;
+</span><span>where
+</span><span>    Idx: ?Sized,
+</span><span>{
+</span><span>    </span><span style="color:#a626a4;">type </span><span>Output: </span><span style="color:#a626a4;">?</span><span>Sized;
+</span><span>
+</span><span>    </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">index</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">self</span><span>, </span><span style="color:#e45649;">index</span><span>: Idx) -&gt; </span><span style="color:#a626a4;">&amp;Self::</span><span>Output;
+</span><span>}
+</span></code></pre>
+<ul>
+<li>(<em>By value</em>) Then, the compiler checks if any method that matches the receiver type <code>Rc&lt;Box&lt;T; 3&gt;&gt;</code> exists. It doesn't.</li>
+<li>(<em>Autoref</em>) Neither does <code>&amp;Rc&lt;Box&lt;T; 3&gt;&gt;</code> or <code>&amp;mut Rc&lt;Box&lt;T; 3&gt;&gt;</code>.</li>
+<li>(<em>Deref</em>) the compiler dereferences <code>Rc&lt;Box&lt;T; 3&gt;&gt;</code> to <code>Box&lt;T; 3&gt;</code>.</li>
+<li>(<em>By value</em> &amp; <em>Autoref</em>) <code>Box&lt;T; 3&gt;</code> and it's autorefs don't match any method receiver type.</li>
+<li>(<em>Deref</em>) the compiler dereferences <code>Box&lt;T; 3&gt;</code> to <code>[T; 3]</code>.</li>
+<li>(<em>By value</em> &amp; <em>Autoref</em>) <code>[T; 3]</code> and it's autorefs don't match any method receiver type.</li>
+<li>(<em>Unsizing</em>) <code>[T; 3]</code> can't be dereferenced, so compiler unsizes it, giving <code>[T]</code>.</li>
+<li>Finally, the compiler find a method <code>index</code> that matches the receiver type <code>[T]</code> and calls it.</li>
+</ul>
+<p>Let's take a look at another example<sup class="footnote-reference"><a href="#nomicon-dot-operator">3</a></sup>:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">do_stuff</span><span>&lt;T: Clone&gt;(</span><span style="color:#e45649;">value</span><span>: </span><span style="color:#a626a4;">&amp;</span><span>T) {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> cloned </span><span style="color:#a626a4;">=</span><span> value.</span><span style="color:#0184bc;">clone</span><span>();
+</span><span>}
+</span></code></pre>
+<p>What's the type of <code>cloned</code>? Well, let's take a look at our candidate methods:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">impl </span><span>Clone </span><span style="color:#a626a4;">for </span><span>T { </span><span style="color:#a0a1a7;">// indicated by the `T: Clone` bound
+</span><span>    </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">clone</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">self</span><span>) -&gt; </span><span style="color:#a626a4;">Self</span><span>;
+</span><span>}
+</span><span style="color:#a626a4;">impl </span><span>Clone </span><span style="color:#a626a4;">for &amp;</span><span>T { </span><span style="color:#a0a1a7;">// standard library impl
+</span><span>    </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">clone</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">self</span><span>) -&gt; </span><span style="color:#a626a4;">Self</span><span>;
+</span><span>}
+</span></code></pre>
+<p>We can easily see that the first one is matched by value, so the type of <code>cloned</code> is <code>T</code>.</p>
+<p>What would happen if the <code>T: Clone</code> bound is removed? Well, the first candidate will be removed, and the second one will be matched by autoref. So the type of <code>cloned</code> will be <code>&amp;T</code>.</p>
+<p>Note that the candidate method could be inherent (derived from the type of the receiver itself) or extension (derived from a trait that the receiver implements). And inherent methods have higher priority than extension methods. Let's take a look at this example:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">struct </span><span>MyStruct(</span><span style="color:#a626a4;">i32</span><span>);
+</span><span>
+</span><span style="color:#a626a4;">impl </span><span>MyStruct {
+</span><span>    </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">hello</span><span>(</span><span style="color:#a626a4;">&amp;mut </span><span style="color:#e45649;">self</span><span>) -&gt; () { </span><span style="color:#a0a1a7;">// change to &amp;self will print &quot;inherent 10&quot;
+</span><span>        println!(</span><span style="color:#50a14f;">&quot;inherent </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">self</span><span>.</span><span style="color:#c18401;">0</span><span>)
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">trait </span><span>MyTrait {
+</span><span>    </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">hello</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">self</span><span>) -&gt; ();
+</span><span>}
+</span><span style="color:#a626a4;">impl </span><span>MyTrait </span><span style="color:#a626a4;">for </span><span>MyStruct {
+</span><span>    </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">hello</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">self</span><span>) -&gt; () {
+</span><span>        println!(</span><span style="color:#50a14f;">&quot;extension </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">self</span><span>.</span><span style="color:#c18401;">0</span><span>)
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> a </span><span style="color:#a626a4;">=</span><span> MyStruct(</span><span style="color:#c18401;">10</span><span>);
+</span><span>    a.</span><span style="color:#0184bc;">hello</span><span>(); </span><span style="color:#a0a1a7;">// prints &quot;extension 10&quot;
+</span><span>}
+</span></code></pre>
+<p>The above code prints <code>trait 10</code> because the <code>&amp;MyStruct</code> has higher priority than <code>&amp;mut MyStruct</code> when it comes to method resolution. However, if we change the first <code>hello</code> method receiver type to <code>&amp;self</code>, the compiler will print <code>impl 10</code> because inherent methods have higher priority than extension methods.</p>
+<p><sup class="footnote-reference"><a href="#what-can-coerce-and-where-in-rust">1</a></sup> Blog: <a href="https://www.possiblerust.com/guide/what-can-coerce-and-where-in-rust">What Can Coerce, and Where, in Rust</a></p>
+<p><sup class="footnote-reference"><a href="#downgrade_mut_lifetime">2</a></sup> Blog: <a href="https://github.com/pretzelhammer/rust-blog/blob/master/posts/common-rust-lifetime-misconceptions.md#9-downgrading-mut-refs-to-shared-refs-is-safe">Common Rust Lifetime Misconceptions</a></p>
+<p><sup class="footnote-reference"><a href="#nomicon-dot-operator">3</a></sup> The Rustonomicon: <a href="https://doc.rust-lang.org/nomicon/dot-operator.html">The Dot Operator</a></p>
+<p><sup class="footnote-reference"><a href="#reference-type-coercions">4</a></sup> The Rust Reference: <a href="https://doc.rust-lang.org/reference/type-coercions.html">Type coercions</a></p>
+<p><sup class="footnote-reference"><a href="#rfc-0401">5</a></sup> Rust language <a href="https://rust-lang.github.io/rfcs/0401-coercions.html">RFC 0401</a></p>
+<p><sup class="footnote-reference"><a href="#rfc-1558">6</a></sup> Rust language <a href="https://rust-lang.github.io/rfcs/1558-closure-to-fn-coercion.html">RFC 1558</a></p>
+<p><sup class="footnote-reference"><a href="#nomicon-coercions">7</a></sup> The Rustonomicon: <a href="https://doc.rust-lang.org/nomicon/coercions.html">Coercions</a></p>
+<p><sup class="footnote-reference"><a href="#effective-rust-understand-type-conversions">8</a></sup> Effective Rust: <a href="https://www.lurklurk.org/effective-rust/casts.html">Understand type conversions</a></p>
+
+        </section>
+    </article>
+</main>
+
+
+
+        <footer>
+  <div style="display:flex">
+    
+        <a class="soc" href=https:&#x2F;&#x2F;github.com&#x2F;clatisus title=GitHub>
+            <i data-feather=github></i>
+        </a>
+    
+        <a class="soc" href=https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;junjie-wu-867051166 title=LinkedIn>
+            <i data-feather=linkedin></i>
+        </a>
+    
+        <a class="soc" href=mailto:clatisus@gmail.com title=Email>
+            <i data-feather=mail></i>
+        </a>
+    
+  </div>
+  <div class="footer-info">
+    2024 © Junjie Wu
+  </div>
+</footer>
+
+
+<script>
+    feather.replace();
+</script>
+
+
+    </div>
+</body>
+
+</html>
